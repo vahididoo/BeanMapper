@@ -1,0 +1,45 @@
+<idea-plugin version="2">
+    <id>com.appurate.intellij.plugin.beanMapper</id>
+    <name>Gosu entity transformation plugin</name>
+    <version>1.0</version>
+    <vendor email="vahid@vahid.ca" url="http://www.appurate.com">Appurate</vendor>
+
+    <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="117.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+-->
+
+    <extensions defaultExtensionNs="com.intellij">
+       <!-- <fileEditorProvider
+                implementation="com.appurate.guidewire.studio.entityTransform.editor.BaseEditorProvider"/>-->
+
+    </extensions>
+
+    <actions>
+
+        <action id="gtx.new" class="com.appurate.intellij.plugin.beanMapper.actions.NewGTXModelAction" text="New GTX Model">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
+        </action>
+    </actions>
+
+    <application-components>
+        <component>
+            <implementation-class>com.appurate.intellij.plugin.beanMapper.Initializer</implementation-class>
+        </component>
+    </application-components>
+</idea-plugin>
