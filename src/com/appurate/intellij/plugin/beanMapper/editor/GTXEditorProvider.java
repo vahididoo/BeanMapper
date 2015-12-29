@@ -10,18 +10,19 @@ import org.jetbrains.annotations.NotNull;
  * Created by vmansoori on 12/27/2015.
  */
 public class GTXEditorProvider extends BaseEditorProvider {
+
     public GTXEditorProvider(String editorId, String editorName) {
-        super(editorId, editorName);
+        super("GTXEditor", "GTX Model Editor");
     }
 
     protected boolean acceptImpl(@NotNull Project project, @NotNull VirtualFile virtualFile) {
         String extension = virtualFile.getExtension();
-        return extension != null?extension.equals("gtx"):false;
+        return extension != null ? extension.equals("gtx") : false;
     }
 
     @Override
     protected FileEditor createEditorImpl(Project project, VirtualFile virtualFile) {
-        return null;
+        return new GTXEditor(project, virtualFile, "GTXEditor");
     }
 
 

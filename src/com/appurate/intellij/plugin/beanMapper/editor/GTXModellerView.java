@@ -1,8 +1,9 @@
 package com.appurate.intellij.plugin.beanMapper.editor;
 
-import com.appurate.guidewire.studio.entityTransform.gtx.GTXModellerXMLModel;
+import com.appurate.intellij.plugin.beanMapper.actions.GTXXMLModel;
 import com.guidewire.configcenter.editor.StudioEditor;
 import com.guidewire.configcenter.view.AbstractView;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
@@ -22,8 +23,8 @@ import java.io.IOException;
  * Created by vmansoori on 12/17/2015.
  */
 public class GTXModellerView extends AbstractView implements ITypeLoaderListener {
-    private final IDEAFile file;
-    private final GTXModellerXMLModel xmlModel;
+    private IDEAFile file;
+    private GTXXMLModel xmlModel;
     private JPanel mainPanel;
     private JPanel sourceFilterPanel;
     private JPanel destinationFilterPanel;
@@ -39,15 +40,18 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
     public GTXModellerView(StudioEditor editor, VirtualFile file) {
         super(editor, false);
         this.file = new IDEAFile(file);
-        xmlModel = GTXModellerXMLModel.readFile(file);
-//        TypeSystem.addTypeLoaderListenerAsWeakRef(this);
-        final IModule module = this.getModule();
-        ExecutionUtil.execute(new SafeCallable(module) {
-            public Object execute() {
-                GTXModellerView.this.init();
-                return null;
-            }
-        });
+        try {
+            xmlModel = GTXXMLModel.readFile(file);
+            final IModule module = this.getModule();
+            ExecutionUtil.execute(new SafeCallable(module) {
+                public Object execute() {
+                    GTXModellerView.this.init();
+                    return null;
+                }
+            });
+        } catch (Exception e) {
+            Logger.getInstance(this.getClass()).error("Cannot create the XMLModel due to exception when marshalling the file", e.getMessage());
+        }
     }
 
 
@@ -64,7 +68,7 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
 
         //Setup the Tree panels
         JPanel leftPanel = new JPanel(new BorderLayout());
-        leftPanel.setSize(new Dimension(50,50));
+        leftPanel.setSize(new Dimension(50, 50));
         leftPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
@@ -77,8 +81,8 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
         rightPanel.add(new JBScrollPane(this.destinationTree), "Center");
 
         //Add panels to main panel
-        this.mainPanel.add(leftPanel,BorderLayout.EAST);
-        this.mainPanel.add(rightPanel,BorderLayout.WEST);
+        this.mainPanel.add(leftPanel, BorderLayout.EAST);
+        this.mainPanel.add(rightPanel, BorderLayout.WEST);
 
 /*
         //configure source Tree

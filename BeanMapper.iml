@@ -9,5 +9,28 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/ij-studio/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/ij-studio/lib" />
+        </SOURCES>
+        <jarDirectory url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/ij-studio/lib" recursive="false" />
+        <jarDirectory url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/ij-studio/lib" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/idea-gosu-plugin/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="file://E:/Documents/Guidewire/Projects/Aviva/workspace/PC/studio/configstudio/idea-gosu-plugin/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>

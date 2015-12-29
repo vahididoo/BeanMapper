@@ -4,10 +4,13 @@ import com.appurate.intellij.plugin.beanMapper.binding.Destination;
 import com.appurate.intellij.plugin.beanMapper.binding.GTXModel;
 import com.appurate.intellij.plugin.beanMapper.binding.ObjectFactory;
 import com.appurate.intellij.plugin.beanMapper.binding.Source;
+import com.intellij.openapi.vfs.VirtualFile;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -17,7 +20,10 @@ public class GTXXMLModel {
 
     private GTXModel _xmlModel;
 
-    public GTXXMLModel(String sourceStr,String destinationStr) {
+    GTXXMLModel() {
+    }
+
+    public GTXXMLModel(String sourceStr, String destinationStr) {
 
         _xmlModel = new GTXModel();
         Source source = new Source();
@@ -39,5 +45,9 @@ public class GTXXMLModel {
     }
 
 
-
+    public static GTXXMLModel readFile(VirtualFile file) throws JAXBException, IOException {
+        JAXBContext jc = JAXBContext.newInstance(ObjectFactory.class);
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        return (GTXXMLModel) unmarshaller.unmarshal(file.getInputStream());
+    }
 }
