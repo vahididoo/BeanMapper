@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GTXEditorProvider extends BaseEditorProvider {
 
-    public GTXEditorProvider(String editorId, String editorName) {
+    public GTXEditorProvider(){
         super("GTXEditor", "GTX Model Editor");
     }
 

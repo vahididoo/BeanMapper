@@ -10,6 +10,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.util.ThrowableComputable;
+import com.intellij.openapi.util.UserDataHolder;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 
@@ -34,7 +35,6 @@ public class NewGTXModelAction extends AnAction {
         if (file != null) {
             FileEditorManager.getInstance(e.getProject()).openFile(file, true);
         }
-
     }
 
     private VirtualFile createGTXModel(final VirtualFile selection, AnActionEvent e) {

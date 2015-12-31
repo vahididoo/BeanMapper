@@ -46,8 +46,12 @@ public class GTXXMLModel {
 
 
     public static GTXXMLModel readFile(VirtualFile file) throws JAXBException, IOException {
+
+        GTXXMLModel thisInstance = new GTXXMLModel();
         JAXBContext jc = JAXBContext.newInstance(ObjectFactory.class);
         Unmarshaller unmarshaller = jc.createUnmarshaller();
-        return (GTXXMLModel) unmarshaller.unmarshal(file.getInputStream());
+
+        thisInstance._xmlModel = (GTXModel) unmarshaller.unmarshal(file.getInputStream());
+        return thisInstance;
     }
 }

@@ -15,6 +15,6 @@ public class GTXEditor extends StudioEditor {
 
     @Override
     protected IView createView() {
-        return null;
+        return new GTXModellerView(this,this.getVirtualFile());
     }
 }

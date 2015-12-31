@@ -15,6 +15,7 @@ import gw.plugin.ij.util.ExecutionUtil;
 import gw.plugin.ij.util.SafeCallable;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
@@ -35,6 +36,10 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
     private Tree sourceTree;
 
     private Tree destinationTree;
+    private JPanel actionPanel;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
 
 
     public GTXModellerView(StudioEditor editor, VirtualFile file) {
@@ -71,6 +76,7 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
         leftPanel.setSize(new Dimension(50, 50));
         leftPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
         JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setSize(new Dimension(50,50));
         rightPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
 
@@ -82,6 +88,7 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
 
         //Add panels to main panel
         this.mainPanel.add(leftPanel, BorderLayout.EAST);
+        this.mainPanel.add(makeActionPanel(), BorderLayout.CENTER);
         this.mainPanel.add(rightPanel, BorderLayout.WEST);
 
 /*
@@ -131,6 +138,15 @@ public class GTXModellerView extends AbstractView implements ITypeLoaderListener
         spacer.setPreferredSize(new Dimension(0, 0));
         sourceFilterPanel.add(spacer, BorderLayout.SOUTH);
         return sourceFilterPanel;
+    }
+
+
+    private JPanel makeActionPanel(){
+        JPanel actionPanel = new JPanel();
+        actionPanel.add(button1);
+        actionPanel.add(button2);
+        actionPanel.add(button3);
+        return actionPanel;
     }
 
     @Override
