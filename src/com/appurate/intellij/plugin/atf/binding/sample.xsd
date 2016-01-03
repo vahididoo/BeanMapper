@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="ATFModel">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="source"/>
+                <xs:element ref="destination"/>
+                <xs:element ref="mappings"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="source">
+        <xs:complexType>
+            <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="destination">
+        <xs:complexType>
+            <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mappings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="mapping"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="mapping">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sourceProperties"/>
+                <xs:element ref="destinationProperty"/>
+                <xs:element ref="transformerClass"/>
+                <xs:element ref="transformation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sourceProperties">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="sourceProperty"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="sourceProperty">
+        <xs:complexType>
+            <xs:attribute name="name" use="required" type="xs:NCName"/>
+            <xs:attribute name="root" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="destinationProperty">
+        <xs:complexType>
+            <xs:attribute name="format" type="xs:NCName"/>
+            <xs:attribute name="name" type="xs:NCName"/>
+            <xs:attribute name="property" type="xs:NCName"/>
+            <xs:attribute name="root" use="required" type="xs:NCName"/>
+            <xs:attribute name="type" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transformerClass">
+        <xs:complexType>
+            <xs:attribute name="className" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="transformation" type="xs:string"/>
+</xs:schema>

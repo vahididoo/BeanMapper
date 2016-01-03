@@ -14,6 +14,10 @@ public class CommonUtil {
     // FIXME: 12/31/2015 This might not be the right way of getting the active project
     public static Project getActiveProject() {
         ProjectManager manager = ProjectManager.getInstance();
+        Project[] openProjects = manager.getOpenProjects();
+        if (openProjects.length > 0) {
+            return openProjects[0];
+        }
         return manager.getDefaultProject();
     }
 }

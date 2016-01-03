@@ -1,5 +1,5 @@
 <idea-plugin version="2">
-    <id>com.appurate.intellij.plugin.beanMapper</id>
+    <id>com.appurate.intellij.plugin.atf</id>
     <name>Gosu entity transformation plugin</name>
     <version>1.0</version>
     <vendor email="vahid@vahid.ca" url="http://www.appurate.com">Appurate</vendor>
@@ -26,16 +26,16 @@
 
     <extensions defaultExtensionNs="com.intellij">
        <fileEditorProvider
-                implementation="com.appurate.intellij.plugin.beanMapper.editor.GTXEditorProvider"/>
+                implementation="com.appurate.intellij.plugin.atf.editor.EditorProvider"/>
 
     </extensions>
 
     <actions>
 
-        <action id="gtx.new" class="com.appurate.intellij.plugin.beanMapper.actions.NewGTXModelAction" text="New GTX Model">
+        <action id="gtx.new" class="com.appurate.intellij.plugin.atf.actions.NewATFModelAction" text="New GTX Model">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
-        <action id="GetPsiManager" class="com.appurate.intellij.plugin.beanMapper.actions.PSITestAction"
+        <action id="GetPsiManager" class="com.appurate.intellij.plugin.atf.actions.PSITestAction"
                 text="PSI test action">
             <add-to-group group-id="NewGroup" anchor="first"/>
         </action>
@@ -43,7 +43,7 @@
 
     <application-components>
         <component>
-            <implementation-class>com.appurate.intellij.plugin.beanMapper.Initializer</implementation-class>
+            <implementation-class>com.appurate.intellij.plugin.atf.Initializer</implementation-class>
         </component>
     </application-components>
 </idea-plugin>
