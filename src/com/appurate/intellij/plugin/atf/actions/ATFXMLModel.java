@@ -23,6 +23,14 @@ public class ATFXMLModel {
     ATFXMLModel() {
     }
 
+    public String getSourceType(){
+        return _xmlModel.getSource().getType();
+    }
+
+    public String getDestinationType(){
+        return _xmlModel.getDestination().getType();
+    }
+
     public ATFXMLModel(String sourceStr, String destinationStr) {
 
         _xmlModel = new ATFModel();

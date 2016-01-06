@@ -12,12 +12,12 @@ import org.jetbrains.annotations.NotNull;
 public class ATFEditorProvider extends BaseEditorProvider {
 
     public ATFEditorProvider(){
-        super("ATFEditor", "GTX Model Editor");
+        super("ATFEditor", "ATF Model Editor");
     }
 
     protected boolean acceptImpl(@NotNull Project project, @NotNull VirtualFile virtualFile) {
         String extension = virtualFile.getExtension();
-        return extension != null ? extension.equals("gtx") : false;
+        return extension != null ? extension.equals("atf") : false;
     }
 
     @Override

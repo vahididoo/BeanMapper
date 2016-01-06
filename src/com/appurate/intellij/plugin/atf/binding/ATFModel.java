@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element ref="{}source"/>
  *         &lt;element ref="{}destination"/>
+ *         &lt;element ref="{}bindingClass"/>
  *         &lt;element ref="{}mappings"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -33,6 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "source",
     "destination",
+    "bindingClass",
     "mappings"
 })
 @XmlRootElement(name = "ATFModel")
@@ -42,6 +44,8 @@ public class ATFModel {
     protected Source source;
     @XmlElement(required = true)
     protected Destination destination;
+    @XmlElement(required = true)
+    protected BindingClass bindingClass;
     @XmlElement(required = true)
     protected Mappings mappings;
 
@@ -91,6 +95,30 @@ public class ATFModel {
      */
     public void setDestination(Destination value) {
         this.destination = value;
+    }
+
+    /**
+     * Gets the value of the bindingClass property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BindingClass }
+     *     
+     */
+    public BindingClass getBindingClass() {
+        return bindingClass;
+    }
+
+    /**
+     * Sets the value of the bindingClass property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BindingClass }
+     *     
+     */
+    public void setBindingClass(BindingClass value) {
+        this.bindingClass = value;
     }
 
     /**

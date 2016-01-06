@@ -1,7 +1,7 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFTypeCategory;
+import com.appurate.intellij.plugin.atf.typesystem.ATFType;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PropertyUtil;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +37,7 @@ public class ATFJavaType extends ATFJavaTypeBase<PsiClass, ATFJavaType> {
         HashMap<String, ATFType> fieldHashMap = new HashMap<>();
         PsiField[] allFields = psiMember.getAllFields();
         for (PsiField aField : allFields) {
-            fieldHashMap.put(aField.getName(), ATFJavaTypeAdapter.getGtxType(this, aField));
+            fieldHashMap.put(aField.getName(), ATFJavaTypeAdapter.getATFType(this, aField));
         }
         return fieldHashMap;
     }

@@ -5,6 +5,7 @@
             <xs:sequence>
                 <xs:element ref="source"/>
                 <xs:element ref="destination"/>
+                <xs:element ref="bindingClass"/>
                 <xs:element ref="mappings"/>
             </xs:sequence>
         </xs:complexType>
@@ -16,6 +17,12 @@
     </xs:element>
     <xs:element name="destination">
         <xs:complexType>
+            <xs:attribute name="type" use="required" type="xs:NCName"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="bindingClass">
+        <xs:complexType>
+            <xs:attribute name="class" use="required"/>
             <xs:attribute name="type" use="required" type="xs:NCName"/>
         </xs:complexType>
     </xs:element>

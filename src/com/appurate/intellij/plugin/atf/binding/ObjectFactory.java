@@ -34,30 +34,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SourceProperties }
-     * 
-     */
-    public SourceProperties createSourceProperties() {
-        return new SourceProperties();
-    }
-
-    /**
-     * Create an instance of {@link SourceProperty }
-     * 
-     */
-    public SourceProperty createSourceProperty() {
-        return new SourceProperty();
-    }
-
-    /**
-     * Create an instance of {@link Source }
-     * 
-     */
-    public Source createSource() {
-        return new Source();
-    }
-
-    /**
      * Create an instance of {@link Mappings }
      * 
      */
@@ -71,6 +47,22 @@ public class ObjectFactory {
      */
     public Mapping createMapping() {
         return new Mapping();
+    }
+
+    /**
+     * Create an instance of {@link SourceProperties }
+     * 
+     */
+    public SourceProperties createSourceProperties() {
+        return new SourceProperties();
+    }
+
+    /**
+     * Create an instance of {@link SourceProperty }
+     * 
+     */
+    public SourceProperty createSourceProperty() {
+        return new SourceProperty();
     }
 
     /**
@@ -90,6 +82,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link BindingClass }
+     * 
+     */
+    public BindingClass createBindingClass() {
+        return new BindingClass();
+    }
+
+    /**
      * Create an instance of {@link Destination }
      * 
      */
@@ -103,6 +103,14 @@ public class ObjectFactory {
      */
     public ATFModel createATFModel() {
         return new ATFModel();
+    }
+
+    /**
+     * Create an instance of {@link Source }
+     * 
+     */
+    public Source createSource() {
+        return new Source();
     }
 
     /**

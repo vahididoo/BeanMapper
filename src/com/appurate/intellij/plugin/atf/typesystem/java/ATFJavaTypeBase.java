@@ -1,7 +1,7 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFTypeCategory;
+import com.appurate.intellij.plugin.atf.typesystem.ATFType;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
 import com.intellij.psi.PsiMember;
 
 /**

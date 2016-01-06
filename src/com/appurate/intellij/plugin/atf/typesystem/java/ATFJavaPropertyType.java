@@ -1,7 +1,7 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFTypeCategory;
+import com.appurate.intellij.plugin.atf.typesystem.ATFType;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
 import com.intellij.psi.*;
 
 import java.util.List;
@@ -25,11 +25,11 @@ public class ATFJavaPropertyType extends ATFJavaTypeBase<PsiField, ATFJavaType> 
     public ATFType[] getChildren() {
 /*
         PsiType propertyType = this.getBasedOn().getType();
-        ATFType[] gtxTypes = new ATFType[0];
+        ATFType[] atfTypes = new ATFType[0];
         if (this.getType().equals(ATFTypeCategory.COMPOSITE)) {
-            gtxTypes = new ATFType[]{new ATFJavaType(((PsiClassType) propertyType).resolve())};
+            atfTypes = new ATFType[]{new ATFJavaType(((PsiClassType) propertyType).resolve())};
         }
-        return gtxTypes;
+        return atfTypes;
 */
         return new ATFType[0];
     }

@@ -22,13 +22,13 @@ public class Initializer implements ApplicationComponent {
     private void registerFileTypes() {
         final FileTypeManager manager = FileTypeManager.getInstance();
         final ATFFileType fileType = new ATFFileType();
-        class RegisterGTXFileType implements Runnable {
+        class RegisterATFFileType implements Runnable {
             @Override
             public void run() {
-                manager.associate(fileType, new ExtensionFileNameMatcher("gtx"));
+                manager.associate(fileType, new ExtensionFileNameMatcher("atf"));
             }
         }
-        ApplicationManager.getApplication().runWriteAction(new RegisterGTXFileType());
+        ApplicationManager.getApplication().runWriteAction(new RegisterATFFileType());
     }
 
     @Override

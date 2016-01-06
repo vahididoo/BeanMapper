@@ -1,4 +1,4 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem;
+package com.appurate.intellij.plugin.atf.typesystem;
 
 import com.intellij.psi.PsiMember;
 

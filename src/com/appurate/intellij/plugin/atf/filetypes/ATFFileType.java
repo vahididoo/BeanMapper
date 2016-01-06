@@ -25,19 +25,19 @@ public class ATFFileType extends UserFileType {
     @NotNull
     @Override
     public String getName() {
-        return "GTX";
+        return "ATF";
     }
 
     @NotNull
     @Override
     public String getDescription() {
-        return "Gosu Transformation";
+        return "Appurate Transformation";
     }
 
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "gtx";
+        return "atf";
     }
 
     @Nullable

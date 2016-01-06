@@ -1,4 +1,4 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem;
+package com.appurate.intellij.plugin.atf.typesystem;
 
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -14,11 +14,11 @@ public interface ATFTypeAdapter {
 
     boolean accept(PsiFile psiFile);
 
-    ATFType getGtxType(VirtualFile file);
+    ATFType getATFType(VirtualFile file);
 
-    ATFType getGtxType(PsiFile psiFile);
+    ATFType getATFType(PsiFile psiFile);
 
-    ATFType getGtxType(String qualifiedName);
+    ATFType getATFType(String qualifiedName);
 
-//    ATFType getGtxType(String path, String name);
+//    ATFType getATFType(String path, String name);
 }

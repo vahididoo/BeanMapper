@@ -1,8 +1,8 @@
 package com.appurate.intellij.plugin.atf.actions;
 
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFTypeAdapter;
-import com.appurate.intellij.plugin.atf.editor.typesystem.ATFTypeManager;
+import com.appurate.intellij.plugin.atf.typesystem.ATFType;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeAdapter;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -29,7 +29,7 @@ public class PSITestAction extends AnAction {
 
         ATFTypeAdapter adapter = ATFTypeManager.getInstance(project).getTypeAdapter("java");
         if (adapter.accept(virtualFile)) {
-            ATFType ATFType = adapter.getGtxType(psiFile);
+            ATFType ATFType = adapter.getATFType(psiFile);
             StringBuilder sb = new StringBuilder(ATFType.getDisplayName()).append("\r\nnChildren:\r\n");
             createPresentationString(ATFType, sb);
             Messages.showMessageDialog(project, sb.toString(), psiFile.getName(), null);

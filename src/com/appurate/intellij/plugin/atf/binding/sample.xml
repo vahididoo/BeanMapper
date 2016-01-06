@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ATFModel>
-    <source type="aType" />
-    <destination type="bType" />
+    <source type="aType"/>
+    <destination type="bType"/>
+    <bindingClass type="java" class="com.appurate.intellij.plugin.atf.Initializer"/>
     <mappings>
         <mapping>
-            <sourceProperties >
-                <sourceProperty  root="aRoot" name="aProperty"/>
+            <sourceProperties>
+                <sourceProperty root="aRoot" name="aProperty"/>
             </sourceProperties>
-            <destinationProperty root="aRoot" property="aProperty" type="type" format="format" />
-            <transformerClass className="aClass" />
+            <destinationProperty root="aRoot" property="aProperty" type="type" format="format"/>
+            <transformerClass className="aClass"/>
             <transformation><![CDATA[block of code]]></transformation>
         </mapping>
         <mapping>
             <sourceProperties>
-                <sourceProperty  root="aRoot" name="aProperty"/>
-                <sourceProperty  root="aRoot" name="aProperty"/>
-                <sourceProperty  root="aRoot" name="aProperty"/>
+                <sourceProperty root="aRoot" name="aProperty"/>
+                <sourceProperty root="aRoot" name="aProperty"/>
+                <sourceProperty root="aRoot" name="aProperty"/>
             </sourceProperties>
-            <destinationProperty  root="aRoot" name="aProperty"/>
+            <destinationProperty root="aRoot" name="aProperty"/>
             <transformerClass className="aClass"/>
             <transformation><![CDATA[block of code]]></transformation>
         </mapping>

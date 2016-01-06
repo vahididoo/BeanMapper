@@ -1,6 +1,7 @@
 package com.appurate.intellij.plugin.atf.actions;
 
 import com.appurate.intellij.plugin.atf.ExecutionUtil;
+import com.appurate.intellij.plugin.atf.mapping.MappingFactoryManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -9,9 +10,18 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.file.PsiDirectoryFactory;
+import com.intellij.psi.impl.file.PsiJavaDirectoryFactory;
+import com.intellij.psi.impl.java.stubs.PsiClassStub;
+import com.intellij.psi.impl.java.stubs.impl.PsiClassStubImpl;
+import com.intellij.psi.impl.source.PsiClassImpl;
+import com.intellij.psi.util.PsiClassUtil;
+import com.intellij.psi.util.PsiUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,16 +39,23 @@ public class NewATFModelAction extends AnAction {
     }
 
     public void actionPerformed(AnActionEvent e) {
-        VirtualFile selection = (VirtualFile) e.getData(PlatformDataKeys.VIRTUAL_FILE);
-        VirtualFile file = this.createGTXModel(selection, e);
+        Project project = e.getProject();
+
+        VirtualFile selection = e.getData(PlatformDataKeys.VIRTUAL_FILE);
+        VirtualFile file = this.createATFModel(selection, e);
+        createBindingClass(project,file);
         if (file != null) {
             FileEditorManager.getInstance(e.getProject()).openFile(file, true);
         }
     }
 
-    private VirtualFile createGTXModel(final VirtualFile selection, AnActionEvent e) {
+    private void createBindingClass(Project project, VirtualFile file) {
+        MappingFactoryManager.getInstance(project).getFactory("java").createMapping(file.getParent(),file.getNameWithoutExtension());
+    }
 
-        final NewGTXDialog dialog = createAndShow();
+    private VirtualFile createATFModel(final VirtualFile selection, AnActionEvent e) {
+
+        final NewATFDialog dialog = createAndShow();
 
         this._xmlModel = new ATFXMLModel(dialog.getSourceType(), dialog.getDestinationType());
 
@@ -46,7 +63,7 @@ public class NewATFModelAction extends AnAction {
             return ExecutionUtil.execute(new ThrowableComputable() {
                 @Override
                 public VirtualFile compute() throws Throwable {
-                    File file = new File(selection.getPath(), dialog.getModelName() + ".gtx");
+                    File file = new File(selection.getPath(), dialog.getModelName() + ".atf");
                     file.getParentFile().mkdirs();
                     VirtualFile dir = LocalFileSystem.getInstance().findFileByIoFile(file.getParentFile());
                     dir.createChildData(this, file.getName());
@@ -59,50 +76,19 @@ public class NewATFModelAction extends AnAction {
                 }
             });
         } catch (Throwable throwable) {
-            Logger.getInstance(this.getClass()).error("Error while creating a new GTX model.", throwable);
+            Logger.getInstance(this.getClass()).error("Error while creating a new ATF model.", throwable);
             return null;
         }
     }
 
-    private NewGTXDialog createAndShow() {
-        NewGTXDialog dialog = new NewGTXDialog();
+    private NewATFDialog createAndShow() {
+        NewATFDialog dialog = new NewATFDialog();
         dialog.pack();
         dialog.setVisible(true);
         return dialog;
     }
 
- /*   protected VirtualFile createGXModel(final VirtualFile selection, AnActionEvent e) {
-//        NewGXModelDialog dlg = new NewGXModelDialog(module, selection);
-//        dlg.setVisible(true);
-//        if(dlg.isOk()) {
-            final String modelName = "sample_model";
-//            final IType entityType = dlg.getEntity();
-            if(modelName != null *//*&& entityType != null*//*) {
-                return (VirtualFile) ExecutionUtil.execute(7, new SafeCallable(module) {
-                    public VirtualFile execute() throws Exception {
-                        GTXModellerXMLModel visualModel = new GTXModellerXMLModel();
-                        visualModel.setSource("enityt.Policy");
-                        visualModel.setDestination("entity.Account");
-                        File file = new File(selection.getPath(), modelName + ".gtx");
-                        file.getParentFile().mkdirs();
-                        VirtualFile dir = StudioUtilities.getVirtualFile(file.getParentFile());
-                        dir.createChildData(this, file.getName());
-                        VirtualFile virtualFile = StudioUtilities.getVirtualFile(file);
-                        ByteArrayOutputStream stringWriter = new ByteArrayOutputStream();
-                        visualModel.writeTo(stringWriter);
-                        Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
-                        document.setText(stringWriter.toString("UTF-8"));
-                        FileDocumentManager.getInstance().saveDocument(document);
-                        return virtualFile;
-                    }
-                });
-            }
-//        }
-
-        return null;
-    }*/
-
-    public void updateImpl(AnActionEvent e) {
+     public void updateImpl(AnActionEvent e) {
         VirtualFile selection = (VirtualFile) e.getData(PlatformDataKeys.VIRTUAL_FILE);
         boolean enabled = true; // TODO: 12/26/2015 Update the logic with real implementation
         Presentation presentation = e.getPresentation();

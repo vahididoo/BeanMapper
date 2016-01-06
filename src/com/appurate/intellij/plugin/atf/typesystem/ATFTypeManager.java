@@ -1,6 +1,6 @@
-package com.appurate.intellij.plugin.atf.editor.typesystem;
+package com.appurate.intellij.plugin.atf.typesystem;
 
-import com.appurate.intellij.plugin.atf.editor.typesystem.java.ATFJavaTypeAdapter;
+import com.appurate.intellij.plugin.atf.typesystem.java.ATFJavaTypeAdapter;
 import com.intellij.openapi.project.Project;
 
 import java.util.Collections;

@@ -3,7 +3,7 @@ package com.appurate.intellij.plugin.atf.actions;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class NewGTXDialog extends JDialog {
+public class NewATFDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -11,7 +11,7 @@ public class NewGTXDialog extends JDialog {
     private JTextField sourceType;
     private JTextField destinationType;
 
-    public NewGTXDialog() {
+    public NewATFDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -66,7 +66,7 @@ public class NewGTXDialog extends JDialog {
     }
 
     public static void main(String[] args) {
-        NewGTXDialog dialog = new NewGTXDialog();
+        NewATFDialog dialog = new NewATFDialog();
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
