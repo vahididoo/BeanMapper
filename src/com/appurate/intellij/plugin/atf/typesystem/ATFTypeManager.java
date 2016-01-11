@@ -1,6 +1,7 @@
 package com.appurate.intellij.plugin.atf.typesystem;
 
-import com.appurate.intellij.plugin.atf.typesystem.java.ATFJavaTypeAdapter;
+import com.appurate.intellij.plugin.atf.typesystem.psi.impl.ATFPsiTypeFactory;
+import com.appurate.intellij.plugin.atf.typesystem.psi.impl.java.ATFJavaTypeFactory;
 import com.intellij.openapi.project.Project;
 
 import java.util.Collections;
@@ -13,22 +14,26 @@ import java.util.Map;
  */
 public class ATFTypeManager {
 
-    private static Map<Project ,ATFTypeManager> instances = Collections.synchronizedMap(new HashMap<Project, ATFTypeManager>());
+    public static final String LANGUAGE_JAVA = "java";
+
+
+    private static Map<Project, ATFTypeManager> instances = Collections.synchronizedMap(new HashMap<Project,
+            ATFTypeManager>());
     private final Project project;
-    private Map<String, ATFTypeAdapter> adaptorMap;
+    private Map<String, ATFPsiTypeFactory> adaptorMap;
 
     private ATFTypeManager(Project project) {
         this.project = project;
-        adaptorMap = new HashMap<String, ATFTypeAdapter>();
+        adaptorMap = new HashMap<>();
         init();
     }
 
     public static ATFTypeManager getInstance(Project project) {
         ATFTypeManager instance;
-        synchronized (instances){
+        synchronized (instances) {
             instance = instances.get(project);
-            if(instance == null){
-                instances.put(project,instance = new ATFTypeManager(project));
+            if (instance == null) {
+                instances.put(project, instance = new ATFTypeManager(project));
             }
         }
         return instance;
@@ -36,11 +41,11 @@ public class ATFTypeManager {
 
     public void init() {
         // TODO: 12/31/2015 Initialize adapterMap by reading the extensions or from plugin configuration
-        adaptorMap.put("java", new ATFJavaTypeAdapter(project));
+        adaptorMap.put("java", new ATFJavaTypeFactory(project));
     }
 
 
-    public ATFTypeAdapter getTypeAdapter(String type) {
+    public ATFTypeFactory getTypeFactory(String type) {
         return adaptorMap.get(type);
     }
 

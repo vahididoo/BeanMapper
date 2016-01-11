@@ -1,7 +1,9 @@
 package com.appurate.intellij.plugin.atf.actions;
 
 import com.appurate.intellij.plugin.atf.ExecutionUtil;
-import com.appurate.intellij.plugin.atf.mapping.MappingFactoryManager;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeFactory;
+import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
@@ -14,14 +16,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.file.PsiDirectoryFactory;
-import com.intellij.psi.impl.file.PsiJavaDirectoryFactory;
-import com.intellij.psi.impl.java.stubs.PsiClassStub;
-import com.intellij.psi.impl.java.stubs.impl.PsiClassStubImpl;
-import com.intellij.psi.impl.source.PsiClassImpl;
-import com.intellij.psi.util.PsiClassUtil;
-import com.intellij.psi.util.PsiUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,18 +36,23 @@ public class NewATFModelAction extends AnAction {
         Project project = e.getProject();
 
         VirtualFile selection = e.getData(PlatformDataKeys.VIRTUAL_FILE);
-        VirtualFile file = this.createATFModel(selection, e);
-        createBindingClass(project,file);
+        VirtualFile file = this.createATFModel(selection, project);
+
         if (file != null) {
             FileEditorManager.getInstance(e.getProject()).openFile(file, true);
         }
     }
 
-    private void createBindingClass(Project project, VirtualFile file) {
-        MappingFactoryManager.getInstance(project).getFactory("java").createMapping(file.getParent(),file.getNameWithoutExtension());
+    private ATFPsiClass createBindingClass(Project project, VirtualFile file) {
+        ATFTypeFactory typeFactory = ATFTypeManager.getInstance(project).getTypeFactory("java");
+        ATFPsiClass psiClass = (ATFPsiClass) typeFactory.createType(file
+                .getParent(), file
+                .getNameWithoutExtension());
+
+        return psiClass;
     }
 
-    private VirtualFile createATFModel(final VirtualFile selection, AnActionEvent e) {
+    private VirtualFile createATFModel(final VirtualFile selection, final Project project) {
 
         final NewATFDialog dialog = createAndShow();
 
@@ -68,6 +67,8 @@ public class NewATFModelAction extends AnAction {
                     VirtualFile dir = LocalFileSystem.getInstance().findFileByIoFile(file.getParentFile());
                     dir.createChildData(this, file.getName());
                     VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
+                    ATFPsiClass mappingClass = createBindingClass(project, virtualFile);
+                    _xmlModel.setBindingClass(mappingClass);
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     NewATFModelAction.this._xmlModel.writeTo(outputStream);
                     Document document = FileDocumentManager.getInstance().getDocument(virtualFile);
@@ -88,7 +89,7 @@ public class NewATFModelAction extends AnAction {
         return dialog;
     }
 
-     public void updateImpl(AnActionEvent e) {
+    public void updateImpl(AnActionEvent e) {
         VirtualFile selection = (VirtualFile) e.getData(PlatformDataKeys.VIRTUAL_FILE);
         boolean enabled = true; // TODO: 12/26/2015 Update the logic with real implementation
         Presentation presentation = e.getPresentation();

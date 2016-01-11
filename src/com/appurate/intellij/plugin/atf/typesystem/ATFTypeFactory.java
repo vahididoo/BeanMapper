@@ -1,12 +1,14 @@
 package com.appurate.intellij.plugin.atf.typesystem;
 
+
+import com.appurate.intellij.plugin.atf.typesystem.psi.impl.ATFPsiTypeFactory;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 
 /**
- * Created by vmansoori on 12/31/2015.
+ * Created by vmansoori on 1/5/2016.
  */
-public interface ATFTypeAdapter {
+public interface ATFTypeFactory {
 
     boolean accept(String extension);
 
@@ -20,5 +22,6 @@ public interface ATFTypeAdapter {
 
     ATFType getATFType(String qualifiedName);
 
-//    ATFType getATFType(String path, String name);
+    ATFType createType(VirtualFile parent, String name);
+
 }

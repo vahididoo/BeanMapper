@@ -1,18 +1,20 @@
-package com.appurate.intellij.plugin.atf.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem.psi.impl;
 
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
 import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
+import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiReference;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMember;
 
 /**
  * Created by vmansoori on 1/2/2016.
  */
-public abstract class ATFJavaTypeBase<T extends PsiMember,U extends ATFType> implements ATFType {
+public abstract class ATFPsiTypeBase<T extends PsiMember, U extends ATFType> implements ATFType {
 
     protected final U parent;
     protected final T psiMember;
 
-    public ATFJavaTypeBase(U parent, T psiMember) {
+    public ATFPsiTypeBase(U parent, T psiMember) {
         this.psiMember = psiMember;
         this.parent = parent;
     }
@@ -32,4 +34,13 @@ public abstract class ATFJavaTypeBase<T extends PsiMember,U extends ATFType> imp
     public U getParent() {
         return parent;
     }
+
+    public ATFPsiReference getReferenceType() {
+        if (psiMember instanceof PsiElement) {
+            return new ATFPsiReferenceImpl(psiMember.getReference());
+        }
+        return null;
+    }
+
+
 }

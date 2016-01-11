@@ -1,7 +1,9 @@
 package com.appurate.intellij.plugin.atf;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.ThrowableComputable;
+import com.intellij.psi.PsiMethod;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -34,4 +36,11 @@ public class ExecutionUtil {
         return (T) ApplicationManager.getApplication().runWriteAction(computable);
     }
 
+    public static <T extends Object> T execute(Computable computable) {
+        return (T) ApplicationManager.getApplication().runWriteAction(computable);
+    }
+
+    public static void executeRead(Computable computable) {
+        ApplicationManager.getApplication().runReadAction(computable);
+    }
 }

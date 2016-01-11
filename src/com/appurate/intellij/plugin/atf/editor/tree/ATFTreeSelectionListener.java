@@ -11,6 +11,6 @@ import javax.swing.event.TreeSelectionListener;
 public class ATFTreeSelectionListener implements TreeSelectionListener {
     @Override
     public void valueChanged(TreeSelectionEvent treeSelectionEvent) {
-        Logger.getInstance(this.getClass()).debug(treeSelectionEvent.getPath().getLastPathComponent().toString());
+
     }
 }

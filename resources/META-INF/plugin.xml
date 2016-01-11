@@ -23,21 +23,13 @@
     <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
 -->
-
     <extensions defaultExtensionNs="com.intellij">
-       <fileEditorProvider
+        <fileEditorProvider
                 implementation="com.appurate.intellij.plugin.atf.editor.ATFEditorProvider"/>
-
     </extensions>
-
     <actions>
-
         <action id="atf.new" class="com.appurate.intellij.plugin.atf.actions.NewATFModelAction" text="New ATF Model">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
-        </action>
-        <action id="GetPsiManager" class="com.appurate.intellij.plugin.atf.actions.PSITestAction"
-                text="PSI test action">
-            <add-to-group group-id="NewGroup" anchor="first"/>
         </action>
     </actions>
 

@@ -1,5 +1,7 @@
-package com.appurate.intellij.plugin.atf.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem.psi.impl;
 
+import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
+import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiProperty;
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
 import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
 import com.intellij.psi.*;
@@ -9,13 +11,13 @@ import java.util.List;
 /**
  * Created by vmansoori on 12/31/2015.
  */
-public class ATFJavaPropertyType extends ATFJavaTypeBase<PsiField, ATFJavaType> {
+public class ATFPsiPropertyImpl extends ATFPsiTypeBase<PsiField, ATFPsiClass> implements ATFPsiProperty {
 
     private final List<PsiMethod> getters;
     private final List<PsiMethod> setters;
 
 
-    public ATFJavaPropertyType(ATFJavaType parent, PsiField aField, List<PsiMethod> setters, List<PsiMethod> getters) {
+    public ATFPsiPropertyImpl(ATFPsiClass parent, PsiField aField, List<PsiMethod> setters, List<PsiMethod> getters) {
         super(parent, aField);
         this.getters = getters;
         this.setters = setters;
@@ -27,7 +29,7 @@ public class ATFJavaPropertyType extends ATFJavaTypeBase<PsiField, ATFJavaType> 
         PsiType propertyType = this.getBasedOn().getType();
         ATFType[] atfTypes = new ATFType[0];
         if (this.getType().equals(ATFTypeCategory.COMPOSITE)) {
-            atfTypes = new ATFType[]{new ATFJavaType(((PsiClassType) propertyType).resolve())};
+            atfTypes = new ATFType[]{new ATFPsiClassImpl(((PsiClassType) propertyType).resolve())};
         }
         return atfTypes;
 */

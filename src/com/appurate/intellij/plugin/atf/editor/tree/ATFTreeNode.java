@@ -2,7 +2,6 @@ package com.appurate.intellij.plugin.atf.editor.tree;
 
 
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
-import com.guidewire.configcenter.metadata.DefaultTreeNode;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.Vector;
@@ -10,16 +9,18 @@ import java.util.Vector;
 /**
  * Created by vmansoori on 1/3/2016.
  */
-public class ATFTreeNode extends DefaultTreeNode {
+public class ATFTreeNode extends DefaultMutableTreeNode {
 
     private ATFType basedOn;
 
     public ATFTreeNode(ATFType basedOn) {
+        super(basedOn, true);
         this.basedOn = basedOn;
+        this.children = doInitChildren();
     }
 
-    @Override
-    protected Vector<? extends DefaultTreeNode> doInitChildren() {
+
+    protected Vector<? extends DefaultMutableTreeNode> doInitChildren() {
         Vector<ATFTreeNode> children = new Vector();
         for (ATFType child : basedOn.getChildren()) {
             children.add(new ATFTreeNode(child));

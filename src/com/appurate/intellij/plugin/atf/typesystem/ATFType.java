@@ -14,4 +14,6 @@ public interface ATFType {
     String getPath();
     PsiMember getBasedOn();
     String toString();
+
+
 }
