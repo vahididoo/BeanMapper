@@ -1,7 +1,7 @@
 package com.appurate.intellij.plugin.atf.typesystem;
 
-import com.appurate.intellij.plugin.atf.typesystem.psi.impl.ATFPsiTypeFactory;
-import com.appurate.intellij.plugin.atf.typesystem.psi.impl.java.ATFJavaTypeFactory;
+import com.appurate.intellij.plugin.atf.binding.ObjectFactory;
+import com.appurate.intellij.plugin.atf.typesystem.java.ATFJavaTypeFactory;
 import com.intellij.openapi.project.Project;
 
 import java.util.Collections;
@@ -14,17 +14,14 @@ import java.util.Map;
  */
 public class ATFTypeManager {
 
-    public static final String LANGUAGE_JAVA = "java";
-
-
     private static Map<Project, ATFTypeManager> instances = Collections.synchronizedMap(new HashMap<Project,
             ATFTypeManager>());
     private final Project project;
-    private Map<String, ATFPsiTypeFactory> adaptorMap;
+    private Map<String, ATFTypeFactory> adaptorMap;
 
     private ATFTypeManager(Project project) {
         this.project = project;
-        adaptorMap = new HashMap<>();
+        adaptorMap = new HashMap<String, ATFTypeFactory>();
         init();
     }
 

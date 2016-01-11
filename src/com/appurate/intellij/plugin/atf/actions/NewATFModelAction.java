@@ -1,8 +1,7 @@
 package com.appurate.intellij.plugin.atf.actions;
 
 import com.appurate.intellij.plugin.atf.ExecutionUtil;
-import com.appurate.intellij.plugin.atf.typesystem.ATFTypeFactory;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
+import com.appurate.intellij.plugin.atf.typesystem.ATFClass;
 import com.appurate.intellij.plugin.atf.typesystem.ATFTypeManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -43,13 +42,9 @@ public class NewATFModelAction extends AnAction {
         }
     }
 
-    private ATFPsiClass createBindingClass(Project project, VirtualFile file) {
-        ATFTypeFactory typeFactory = ATFTypeManager.getInstance(project).getTypeFactory("java");
-        ATFPsiClass psiClass = (ATFPsiClass) typeFactory.createType(file
-                .getParent(), file
+    private ATFClass createBindingClass(Project project, VirtualFile file) {
+        return (ATFClass) ATFTypeManager.getInstance(project).getTypeFactory("java").createType(file.getParent(), file
                 .getNameWithoutExtension());
-
-        return psiClass;
     }
 
     private VirtualFile createATFModel(final VirtualFile selection, final Project project) {
@@ -67,7 +62,7 @@ public class NewATFModelAction extends AnAction {
                     VirtualFile dir = LocalFileSystem.getInstance().findFileByIoFile(file.getParentFile());
                     dir.createChildData(this, file.getName());
                     VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByIoFile(file);
-                    ATFPsiClass mappingClass = createBindingClass(project, virtualFile);
+                    ATFClass mappingClass = createBindingClass(project, virtualFile);
                     _xmlModel.setBindingClass(mappingClass);
                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                     NewATFModelAction.this._xmlModel.writeTo(outputStream);

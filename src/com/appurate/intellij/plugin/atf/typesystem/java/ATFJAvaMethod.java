@@ -1,16 +1,15 @@
-package com.appurate.intellij.plugin.atf.typesystem.psi.impl;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
+import com.appurate.intellij.plugin.atf.typesystem.ATFMethod;
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
 import com.intellij.psi.PsiMethod;
 
 /**
  * Created by vmansoori on 1/6/2016.
  */
-public class ATFPsiMethodImpl extends ATFPsiTypeBase<PsiMethod, ATFPsiClass> implements com.appurate.intellij.plugin.atf
-        .typesystem.psi.ATFPsiMethod {
-    public ATFPsiMethodImpl(ATFPsiClass parent, PsiMethod psiMember) {
-        super(parent,psiMember);
+public class ATFJavaMethod extends ATFJavaTypeBase<PsiMethod, ATFJavaClass> implements ATFMethod{
+    public ATFJavaMethod(ATFJavaClass parent, PsiMethod psiMember) {
+        super(parent, psiMember);
     }
 
     @Override

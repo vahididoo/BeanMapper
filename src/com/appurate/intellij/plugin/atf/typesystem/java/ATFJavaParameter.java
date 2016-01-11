@@ -1,25 +1,25 @@
-package com.appurate.intellij.plugin.atf.typesystem.psi.impl.java;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiParameter;
+import com.appurate.intellij.plugin.atf.typesystem.ATFParameter;
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiReference;
 import com.appurate.intellij.plugin.common.util.CommonUtil;
 import com.intellij.psi.*;
 
 /**
  * Created by vmansoori on 1/7/2016.
  */
-public class ATFJavaParameter implements ATFPsiParameter {
+public class ATFJavaParameter implements ATFParameter {
 
     private final String name;
-    private final ATFPsiReference type;
+    private final ATFType type;
     private final PsiParameter psiParameter;
 
-    public ATFJavaParameter(String name, ATFPsiReference type) {
+    public ATFJavaParameter(ATFType parent, String name, ATFType type) {
         this.name = name;
         this.type = type;
         psiParameter = PsiElementFactory.SERVICE.getInstance(CommonUtil.getActiveProject())
-                .createParameterFromText(type.resolve().getName() + " " + name, null);
+                .createParameterFromText("String", parent
+                        .getBasedOn());
 
     }
 
@@ -29,7 +29,7 @@ public class ATFJavaParameter implements ATFPsiParameter {
     }
 
     @Override
-    public ATFPsiReference getType() {
+    public ATFType getType() {
         return this.type;
     }
 

@@ -1,7 +1,7 @@
 package com.appurate.intellij.plugin.atf.actions;
 
 import com.appurate.intellij.plugin.atf.binding.*;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
+import com.appurate.intellij.plugin.atf.typesystem.ATFClass;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiClass;
@@ -21,7 +21,7 @@ public class ATFXMLModel {
     private ATFModel _xmlModel;
 
 
-    public void setBindingClass(ATFPsiClass bindingClass) {
+    public void setBindingClass(ATFClass bindingClass) {
         BindingClass bindingClazz = new BindingClass();
         bindingClazz.setClazz(((PsiClass)bindingClass.getBasedOn()).getQualifiedName());
 //        bindingClazz.setType(bindingClass.getType()); // FIXME: 1/6/2016 ATFType.getType needs to return the language

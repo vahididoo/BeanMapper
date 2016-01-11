@@ -6,19 +6,20 @@ import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeCellRenderer;
 import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeNode;
 import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeSelecetionModel;
 import com.appurate.intellij.plugin.atf.typesystem.*;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiClass;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiParameter;
-import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiProperty;
-import com.appurate.intellij.plugin.atf.typesystem.psi.impl.java.JavaMappingHandler;
+import com.appurate.intellij.plugin.atf.typesystem.java.JavaMappingHandler;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.treeStructure.Tree;
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -82,7 +83,7 @@ public class ATFModellerView {
 
         sourceATFType = typeFactory.getATFType(sourceType);
         destinationATFType = typeFactory.getATFType(destinationType);
-        _mappingHandler = new JavaMappingHandler(project, (ATFPsiClass) typeFactory.getATFType(bindingClassType));
+        _mappingHandler = new JavaMappingHandler(project, (ATFClass) typeFactory.getATFType(bindingClassType));
     }
 
     protected JComponent generateMainPanel() {
@@ -167,7 +168,7 @@ public class ATFModellerView {
 
 
     private class AddMappingActionListener implements ActionListener {
-        private ATFPsiProperty sourceParameters;
+        private ATFProperty sourceParameters;
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -179,13 +180,13 @@ public class ATFModellerView {
             return ((ATFTreeNode) field.getLastPathComponent()).getBasedOn().getName();
         }
 
-        public ATFPsiProperty[] getSourceParameters() {
-            java.util.List<ATFPsiProperty> properties = new ArrayList<ATFPsiProperty>(sourceSelectedFields.length);
+        public ATFProperty[] getSourceParameters() {
+            java.util.List<ATFProperty> properties = new ArrayList<ATFProperty>(sourceSelectedFields.length);
             for (TreePath path : sourceSelectedFields) {
                 ATFTreeNode node = (ATFTreeNode) path.getLastPathComponent();
-                properties.add((ATFPsiProperty) node.getBasedOn());
+                properties.add((ATFProperty) node.getBasedOn());
             }
-            return properties.toArray(new ATFPsiProperty[sourceSelectedFields.length]);
+            return properties.toArray(new ATFProperty[sourceSelectedFields.length]);
         }
     }
 

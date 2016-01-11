@@ -1,4 +1,4 @@
-package com.appurate.intellij.plugin.atf.typesystem.psi.impl.java;
+package com.appurate.intellij.plugin.atf.typesystem.java;
 
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
 import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
