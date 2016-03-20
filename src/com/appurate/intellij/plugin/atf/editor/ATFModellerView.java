@@ -5,21 +5,30 @@ import com.appurate.intellij.plugin.atf.actions.ATFXMLModel;
 import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeCellRenderer;
 import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeNode;
 import com.appurate.intellij.plugin.atf.editor.tree.ATFTreeSelecetionModel;
-import com.appurate.intellij.plugin.atf.typesystem.*;
-import com.appurate.intellij.plugin.atf.typesystem.java.JavaMappingHandler;
+import com.appurate.intellij.plugin.atf.generator.MappingGenerator;
+import com.appurate.intellij.plugin.atf.generator.OutputType;
+import com.appurate.intellij.plugin.atf.generator.java.JavaMappingGenerator;
+import com.appurate.intellij.plugin.atf.typesystem.ATFType;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeFactory;
+import com.appurate.intellij.plugin.atf.typesystem.ATFTypeManager;
+import com.appurate.intellij.plugin.atf.typesystem.ATFProperty;
+import com.appurate.intellij.plugin.atf.typesystem.psi.ATFPsiProperty;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBScrollPane;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.codeStyle.CodeStyleManager;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.rt.execution.application.MainAppClassLoader;
 import com.intellij.ui.treeStructure.Tree;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -27,6 +36,9 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +46,7 @@ import java.util.ArrayList;
  */
 public class ATFModellerView {
     private final Project project;
-    //    private IDEAFile file;
+    private JavaMappingGenerator generator;
     private ATFXMLModel xmlModel;
     private JPanel mainPanel;
     private Tree sourceTree;
@@ -47,18 +59,26 @@ public class ATFModellerView {
     private JPanel destinationPanel;
     private JPanel actionPanel;
     private JPanel sourcePanel;
+    private JButton refreshButton;
     private ATFTypeFactory typeFactory;
     private TreePath[] sourceSelectedFields;
     private TreePath[] destinationSelectedFields;
-    private JavaMappingHandler _mappingHandler;
 
 
     public ATFModellerView(Project project, FileEditor editor, VirtualFile file) {
         this.project = project;
         typeFactory = ATFTypeManager.getInstance(project).getTypeFactory("java");
-//        this.file = new IDEAFile(file);
         try {
             xmlModel = ATFXMLModel.readFile(file);
+            String mappingClassName = xmlModel.getBindingClass();
+
+            PsiFile[] filesByName = FilenameIndex.getFilesByName(project, mappingClassName + ".java", GlobalSearchScope
+                    .projectScope
+                            (project));
+            if (filesByName.length > 0) {
+                Class<?> aClass = Class.forName(mappingClassName, false, MainAppClassLoader.getSystemClassLoader());
+
+            }
             ExecutionUtil.executeRead(new Computable() {
                 public Object compute() {
                     ATFModellerView.this.init();
@@ -83,14 +103,12 @@ public class ATFModellerView {
 
         sourceATFType = typeFactory.getATFType(sourceType);
         destinationATFType = typeFactory.getATFType(destinationType);
-        _mappingHandler = new JavaMappingHandler(project, (ATFClass) typeFactory.getATFType(bindingClassType));
+        generator = new JavaMappingGenerator(project, sourceATFType, destinationATFType, OutputType.JAVA);
     }
 
     protected JComponent generateMainPanel() {
 
         initializeModel();
-//        this.mainPanel = new JPanel();
-//        mainPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         createSourcePanel();
         createActionPanel();
         createDestinationPanel();
@@ -99,12 +117,13 @@ public class ATFModellerView {
     }
 
     private void createDestinationPanel() {
-        this.destinationPanel.setLayout(new BoxLayout(this.destinationPanel,BoxLayout.PAGE_AXIS));
+        this.destinationPanel.setLayout(new BoxLayout(this.destinationPanel, BoxLayout.PAGE_AXIS));
         this.destinationTree.setModel(new DefaultTreeModel(new ATFTreeNode(destinationATFType)));
         this.destinationTree.setCellRenderer(new ATFTreeCellRenderer(this.destinationTree));
         this.destinationTree.setRootVisible(true);
         this.destinationTree.setShowsRootHandles(false);
         this.destinationTree.setSelectionModel(new ATFTreeSelecetionModel(true));
+        this.refreshButton.addActionListener(new RefreshActionListener(this.destinationTree));
         GridBagConstraints gbc = new GridBagConstraints(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE, 1,
                 1, 1, 1,
                 GridBagConstraints.CENTER,
@@ -115,7 +134,7 @@ public class ATFModellerView {
     }
 
     private void createSourcePanel() {
-        this.sourcePanel.setLayout(new BoxLayout(this.sourcePanel,BoxLayout.PAGE_AXIS));
+        this.sourcePanel.setLayout(new BoxLayout(this.sourcePanel, BoxLayout.PAGE_AXIS));
         this.sourceTree.setModel(new DefaultTreeModel(new ATFTreeNode(sourceATFType)));
         this.sourceTree.setCellRenderer(new ATFTreeCellRenderer(this.sourceTree));
         this.sourceTree.setRootVisible(true);
@@ -140,19 +159,16 @@ public class ATFModellerView {
 
 
     private void createActionPanel() {
-        this.actionPanel.setLayout(new BoxLayout(this.actionPanel,BoxLayout.Y_AXIS));
+        System.out.printf("CreateActionPanel Called.\n");
+//        this.actionPanel.setLayout(new BoxLayout(this.actionPanel, BoxLayout.Y_AXIS));
         button1.setIcon(AllIcons.ToolbarDecorator.Add);
         button1.addActionListener(new AddMappingActionListener());
         button2.setIcon(AllIcons.ToolbarDecorator.Remove);
-//        GridBagConstraints gbc = new GridBagConstraints(0, GridBagConstraints.RELATIVE, 1,
-//                1, 0, 0,
-//                GridBagConstraints.CENTER,
-//                GridBagConstraints
-//                        .NONE, new Insets(0, 0, 0, 0), 0, 0);
         actionPanel.add(button1);
-
         actionPanel.add(button2);
-//        actionPanel.add(button3);
+        for (ActionListener actionListener : button1.getActionListeners()) {
+            System.out.printf(actionListener.toString() + "\n");
+        }
         GridBagConstraints gbc = new GridBagConstraints(GridBagConstraints.RELATIVE, GridBagConstraints.RELATIVE, 1,
                 1, 0, 0,
                 GridBagConstraints.CENTER,
@@ -169,10 +185,92 @@ public class ATFModellerView {
 
     private class AddMappingActionListener implements ActionListener {
         private ATFProperty sourceParameters;
+        private MappingGenerator generator;
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            _mappingHandler.createOrUpdateMappingMethod(getDestinationFieldName(), getSourceParameters());
+            System.out.printf("Action performed called. " + e.getActionCommand());
+            if (sourceTree.getSelectionPaths() == null || sourceTree.getSelectionPaths().length == 0 || destinationTree.getSelectionPaths() == null || destinationTree.getSelectionPaths().length == 0) {
+                return;
+            }
+
+            java.util.List<ATFType> sourceFields = new ArrayList<>();
+            for (TreePath treePath : sourceTree.getSelectionPaths()) {
+                ATFType field = (((ATFTreeNode) treePath.getLastPathComponent())).getBasedOn();
+                sourceFields.add(field);
+            }
+
+            JavaMappingGenerator generator = ATFModellerView.this.generator;
+            ATFPsiProperty[] sourceFieldsArray = sourceFields.toArray(new ATFPsiProperty[sourceFields.size()]);
+            ATFType destinationField = ((ATFTreeNode) destinationTree.getLastSelectedPathComponent()).getBasedOn();
+            generator.map(sourceFieldsArray, destinationField);
+            PsiClass mappingClass = generator.getMappingClass();
+
+            try {
+                xmlModel.addMapping(sourceFieldsArray, destinationField);
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
+            mappingClass = (PsiClass) CodeStyleManager.getInstance(project).reformat(mappingClass);
+
+            FileWriter writer = null;
+            try {
+                writer = new FileWriter(new File("/tmp/vahid.java"));
+                writer.write(mappingClass.getText());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } finally {
+                try {
+                    writer.flush();
+                    writer.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+
+        private MappingGenerator getMappingGenerator() throws ClassNotFoundException {
+            if (generator == null) {
+                generator = new JavaMappingGenerator(project, sourceATFType, destinationATFType, OutputType.JAVA);
+            }
+            return generator;
+        }
+
+
+        public String[] getSourceParamerNames() {
+
+            String[] sourceParamerNames = new String[getSourceParameters().length];
+
+            for (int i = 0; i < getSourceParameters().length; i++) {
+                sourceParamerNames[i] = getSourceParameters()[i].getName();
+            }
+            return sourceParamerNames;
+        }
+
+
+        private ATFProperty[] getSources() {
+            ATFProperty[] sources = new ATFProperty[sourceSelectedFields.length];
+            if (sourceSelectedFields != null && sourceSelectedFields.length > 0) {
+                for (int i = 0; i < sourceSelectedFields.length; i++) {
+                    sources[i] = (ATFProperty) ((ATFTreeNode) sourceSelectedFields[i].getLastPathComponent())
+                            .getBasedOn();
+                }
+            }
+            return sources;
+
+        }
+
+        @Nullable
+        private ATFProperty getDestination() {
+            ATFType destination = null;
+            TreePath destinationSelectedField;
+            if (destinationSelectedFields != null && destinationSelectedFields.length > 0) {
+                destinationSelectedField = destinationSelectedFields[destinationSelectedFields.length - 1];
+                ATFTreeNode lastPathComponent = (ATFTreeNode) destinationSelectedField.getLastPathComponent();
+                destination = lastPathComponent.getBasedOn();
+            }
+            return (ATFProperty) destination;
         }
 
         public String getDestinationFieldName() {
@@ -204,4 +302,15 @@ public class ATFModellerView {
     }
 
 
+    private class RefreshActionListener implements ActionListener {
+        public RefreshActionListener(Tree destinationTree) {
+
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            DefaultTreeModel model = (DefaultTreeModel) destinationTree.getModel();
+            model.setRoot(new ATFTreeNode(destinationATFType));
+        }
+    }
 }

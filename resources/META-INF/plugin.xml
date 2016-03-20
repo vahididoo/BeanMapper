@@ -31,6 +31,9 @@
         <action id="atf.new" class="com.appurate.intellij.plugin.atf.actions.NewATFModelAction" text="New ATF Model">
             <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
         </action>
+        <action id="testpsi" class="com.appurate.intellij.plugin.experimental.TestPsiAction" text="Test Psi">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+        </action>
     </actions>
 
     <application-components>

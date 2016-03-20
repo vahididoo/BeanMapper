@@ -1,7 +1,6 @@
 package com.appurate.intellij.plugin.atf.typesystem;
 
-import com.appurate.intellij.plugin.atf.binding.ObjectFactory;
-import com.appurate.intellij.plugin.atf.typesystem.java.ATFJavaTypeFactory;
+import com.appurate.intellij.plugin.atf.typesystem.psi.java.ATFJavaTypeFactory;
 import com.intellij.openapi.project.Project;
 
 import java.util.Collections;

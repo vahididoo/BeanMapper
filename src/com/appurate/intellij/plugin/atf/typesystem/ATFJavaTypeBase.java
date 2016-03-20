@@ -1,4 +1,4 @@
-package com.appurate.intellij.plugin.atf.typesystem.java;
+package com.appurate.intellij.plugin.atf.typesystem;
 
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
 import com.appurate.intellij.plugin.atf.typesystem.ATFTypeCategory;
@@ -17,13 +17,12 @@ public abstract class ATFJavaTypeBase<T extends PsiMember,U extends ATFType> imp
         this.parent = parent;
     }
 
-    @Override
-    public ATFTypeCategory getType() {
+
+    public ATFType getType() {
         //// TODO: 1/2/2016 This method should return the type category based on the type of the PsiMember passed in.
         return null;
     }
 
-    @Override
     public T getBasedOn() {
         return this.psiMember;
     }

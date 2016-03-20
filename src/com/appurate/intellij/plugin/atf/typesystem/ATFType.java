@@ -7,13 +7,16 @@ import com.intellij.psi.PsiMember;
  */
 public interface ATFType {
     ATFType[] getChildren();
+
     ATFType getParent();
-    ATFTypeCategory getType();
+
+
     String getName();
+
     String getDisplayName();
-    String getPath();
-    PsiMember getBasedOn();
+
+
     String toString();
-    ATFReference getReferenceType();
+
 
 }

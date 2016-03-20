@@ -2,7 +2,6 @@ package com.appurate.intellij.plugin.atf.typesystem;
 
 
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,20 +17,22 @@ public interface ATFTypeFactory {
 
     boolean accept(PsiFile psiFile);
 
-    ATFType getATFType(VirtualFile file);
-
-    ATFType getATFType(PsiFile psiFile);
-
     ATFType getATFType(String qualifiedName);
 
-    ATFType createType(VirtualFile parent, String name);
+    ATFMethod getATFMethod(@NotNull Object element);
 
-    ATFMethod createMethod(@NotNull ATFClass parent, @NotNull String name, @Nullable ATFProperty... params);
+    ATFProperty getATFProperty(@NotNull Object element);
+
+    ATFParameter getATFParameter(@NotNull Object element);
+
+    ATFMethod createMethod(@NotNull ATFClass parent, @NotNull String name, @Nullable ATFParameter... params);
 
     ATFMethod createConstructor(@NotNull ATFClass parent, @Nullable Object... params);
 
-    ATFProperty createProperty(@NotNull ATFClass parent, @NotNull Object param);
+    ATFProperty createProperty(@NotNull ATFClass parent, @NotNull Object property);
+
+    ATFParameter createParameter(@NotNull ATFMethod parent,@NotNull Object param);
 
     ATFMethod createMethod(@NotNull ATFClass parent, @NotNull String name, @Nullable ATFType returnType,
-                           @Nullable ATFProperty... params);
+                           @Nullable ATFParameter... params);
 }

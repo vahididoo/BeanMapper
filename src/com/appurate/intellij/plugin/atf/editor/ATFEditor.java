@@ -20,25 +20,25 @@ import java.beans.PropertyChangeListener;
  * Created by vmansoori on 12/27/2015.
  */
 public class ATFEditor implements FileEditor {
-    private final Project _project;
-    private final VirtualFile _vFile;
     private final String _name;
     private final ATFModellerView _view;
+    private boolean initialized = false;
+    private JComponent mainPanel;
 
     public ATFEditor(Project project, VirtualFile file, String name) {
-        _project = project;
-        _vFile = file;
         _name = name;
-        _view = new ATFModellerView(project,this,file);
+        _view = new ATFModellerView(project, this, file);
     }
-
 
 
     @NotNull
     @Override
     public JComponent getComponent() {
-        JPanel mainMapenl = new JBPanel();
-        return _view.generateMainPanel();
+        if (!initialized) {
+            mainPanel = _view.generateMainPanel();
+            initialized = true;
+        }
+        return this.mainPanel;
     }
 
     @Nullable
@@ -129,7 +129,7 @@ public class ATFEditor implements FileEditor {
 
     }
 
-    public static class ATFEditorState implements FileEditorState{
+    public static class ATFEditorState implements FileEditorState {
         public static final ATFEditorState STATE = new ATFEditorState();
 
         @Override
