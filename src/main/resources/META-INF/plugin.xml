@@ -1,8 +1,8 @@
-<idea-plugin version="2">
-    <id>com.appurate.intellij.plugin.atf</id>
-    <name>Gosu entity transformation plugin</name>
+<idea-plugin>
+    <id>com.guidewire.studio-extras.gcdc</id>
+    <name>Gosu change data capture</name>
     <version>1.0</version>
-    <vendor email="vahid@vahid.ca" url="http://www.appurate.com">Appurate</vendor>
+    <!--<vendor email="vahid@vahid.ca" url="http://www.appurate.com">Appurate</vendor>-->
 
     <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -28,10 +28,9 @@
                 implementation="com.appurate.intellij.plugin.atf.editor.ATFEditorProvider"/>
     </extensions>
     <actions>
-        <action id="atf.new" class="com.appurate.intellij.plugin.atf.actions.NewATFModelAction" text="New ATF Model">
-            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewFile"/>
-        </action>
-        <action id="testpsi" class="com.appurate.intellij.plugin.experimental.TestPsiAction" text="Test Psi">
+
+        <action id="Atf.NewClass" class="com.appurate.intellij.plugin.atf.actions.NewATFModelAction"
+                text="NewATFModelAction" >
             <add-to-group group-id="NewGroup" anchor="first"/>
         </action>
     </actions>

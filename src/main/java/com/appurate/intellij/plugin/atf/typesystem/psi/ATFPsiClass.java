@@ -5,8 +5,10 @@ import com.appurate.intellij.plugin.atf.typesystem.ATFMethod;
 import com.appurate.intellij.plugin.atf.typesystem.ATFProperty;
 import com.appurate.intellij.plugin.atf.typesystem.ATFType;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
 import com.intellij.psi.util.PropertyUtil;
+import javafx.beans.property.Property;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,8 @@ public class ATFPsiClass extends ATFPsiType implements ATFClass {
         String[] allProperties = PropertyUtil.getReadableProperties(((PsiClass) this.getBasedOn()), true);
         List<ATFPsiProperty> properties = new ArrayList<>();
         for (String psiField : allProperties) {
-            properties.add(new ATFPsiProperty(this, ((PsiClass) this.getBasedOn()).findFieldByName(psiField, true),true));
+            PsiField propertyField = PropertyUtil.findPropertyField((PsiClass) this.basedOn, psiField, false);
+            properties.add(new ATFPsiProperty(this, propertyField));
 
         }
         return new ATFType[0];

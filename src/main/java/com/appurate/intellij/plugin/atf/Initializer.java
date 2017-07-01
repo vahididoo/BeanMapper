@@ -1,6 +1,9 @@
 package com.appurate.intellij.plugin.atf;
 
+import com.appurate.intellij.plugin.atf.actions.NewATFModelAction;
 import com.appurate.intellij.plugin.atf.filetypes.ATFFileType;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.fileTypes.ExtensionFileNameMatcher;
@@ -17,6 +20,18 @@ public class Initializer implements ApplicationComponent {
     @Override
     public void initComponent() {
         registerFileTypes();
+//        regirsterActions();
+    }
+
+    private void regirsterActions() {
+        ActionManager am = ActionManager.getInstance();
+        NewATFModelAction action = new NewATFModelAction();
+
+        am.registerAction("NewATFModelAction",action);
+        DefaultActionGroup actionGroup = (DefaultActionGroup) am.getAction("NewGroup");
+        actionGroup.addSeparator();
+        actionGroup.addAction(action);
+
     }
 
     private void registerFileTypes() {

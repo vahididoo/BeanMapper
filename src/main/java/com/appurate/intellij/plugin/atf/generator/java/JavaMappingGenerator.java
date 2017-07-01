@@ -33,7 +33,6 @@ public class JavaMappingGenerator extends MappingGenerator {
 
             PsiStatement[] statements = mappingMethod.getBody().getStatements();
             mappingMethod.getBody().addAfter(psiStatement, statements[statements.length - 1]);
-
         }
     }
 

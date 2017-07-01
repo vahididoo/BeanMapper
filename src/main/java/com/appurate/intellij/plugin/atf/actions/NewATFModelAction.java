@@ -1,10 +1,7 @@
 package com.appurate.intellij.plugin.atf.actions;
 
 import com.appurate.intellij.plugin.atf.ExecutionUtil;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -32,7 +29,7 @@ public class NewATFModelAction extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
 
-        VirtualFile selection = e.getData(PlatformDataKeys.VIRTUAL_FILE);
+        VirtualFile selection = e.getData(DataKeys.VIRTUAL_FILE);
         VirtualFile file = this.createATFModel(selection, project);
 
         if (file != null) {

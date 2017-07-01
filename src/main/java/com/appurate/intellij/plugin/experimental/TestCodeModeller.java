@@ -2,9 +2,7 @@ package com.appurate.intellij.plugin.experimental;
 
 import com.sun.codemodel.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.io.*;
 
 /**
  * Created by vmansoori on 1/14/2016.

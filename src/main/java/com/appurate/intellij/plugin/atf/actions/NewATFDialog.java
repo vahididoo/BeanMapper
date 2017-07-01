@@ -3,6 +3,9 @@ package com.appurate.intellij.plugin.atf.actions;
 import javax.swing.*;
 import java.awt.event.*;
 
+//TODO Create a drop down with PSI types including XMLSchemas to select from
+
+
 public class NewATFDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;

@@ -3,11 +3,6 @@ package com.appurate.intellij.plugin.atf.typesystem.psi;
 import com.appurate.intellij.plugin.atf.typesystem.*;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PropertyUtil;
-import com.sun.tools.xjc.api.Property;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vmansoori on 3/17/2016.
